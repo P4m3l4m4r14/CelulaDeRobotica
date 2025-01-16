@@ -1,0 +1,63 @@
+// LEDs
+const int ldr = 7;
+const int ldy = 6;
+const int ldg = 5;
+
+// Pino buzzer
+const int buz = 13; // Alterado para evitar conflito com comunicação serial
+
+
+void bips(int n, int intervalo) {
+  for (int i = 0; i < n; i++) {
+    digitalWrite(buz, HIGH);
+    delay(100);
+    digitalWrite(buz, LOW);
+    delay(intervalo);
+  }
+}
+
+
+void setupPins() {
+  pinMode(ldr, OUTPUT);
+  pinMode(ldg, OUTPUT);
+  pinMode(ldy, OUTPUT);
+  pinMode(buz, OUTPUT);
+  digitalWrite(buz, LOW); // Certificar que o buzzer está desligado inicialmente
+}
+
+void displayWarning(const char* message, int ledPin) {
+  digitalWrite(ledPin, HIGH);
+  delay(100);
+  //lcd.setCursor(0, 1);
+  //lcd.print(message);
+  Serial.print(message);
+  delay(100);
+  digitalWrite(ledPin, LOW);
+}
+
+void checkGasLevel(int gas_data) {
+  if (gas_data > 900) {
+    displayWarning("PERIGO", ldr);
+    bips(1, 100);
+  } else if (gas_data > 800) {
+    displayWarning("ALERTA", ldy);
+  } else {
+    displayWarning("SEGURO", ldg);
+  }
+}
+
+void setup() {
+  Serial.begin(9600);
+  //setupLCD();
+  setupPins();
+}
+
+void loop() {
+  int gas_data = analogRead(A5);
+  //displayGasData(gas_data);
+  checkGasLevel(gas_data);
+  
+  Serial.println(gas_data);
+  delay(100);
+  //lcd.clear();
+}
