@@ -1,5 +1,4 @@
-// TimeOne to control Timer1
-
+  // TimeOne to control Timer1
 #include <TimerOne.h>
 
 
