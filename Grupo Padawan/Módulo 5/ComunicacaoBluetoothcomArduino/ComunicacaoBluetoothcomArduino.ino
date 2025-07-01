@@ -8,7 +8,7 @@ void setup() {
 }
 
 void loop() {
- buf = Serial.read();
+ buf = Serial.read(); //se receber 1 led liga
  if(buf == 1){
   digitalWrite(LED_BUILTIN, HIGH);
   Serial.print("Led Ligado!!!");
@@ -17,6 +17,5 @@ void loop() {
   Serial.print("Led desligado!!!");
  }
 }
-
 
 //Baixar APK no celular para comunicar : Arduíno Bluetooth controller
